@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Card } from '../ui/Card';
-import { BookOpen, Copy, Check } from 'lucide-react';
+import { Copy, Check } from 'lucide-react';
 
 interface LessonCardProps {
   title: string;
@@ -20,10 +20,14 @@ export const LessonCard: React.FC<LessonCardProps> = ({
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
-    await navigator.clipboard.writeText(content);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    if (content) {
+      await navigator.clipboard.writeText(content);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
   };
+
+  const safeContent = content || '';
 
   return (
     <Card className="h-full">
@@ -50,7 +54,7 @@ export const LessonCard: React.FC<LessonCardProps> = ({
       <div className="p-6">
         <div className="prose prose-sm max-w-none">
           <div className="text-gray-700 leading-relaxed whitespace-pre-wrap">
-            {content.split('[AI DRAWS:').map((part, index) => {
+            {safeContent.split('[AI DRAWS:').map((part, index) => {
               if (index === 0) return <p key={index}>{part}</p>;
               
               const [animationDesc, ...rest] = part.split(']');
