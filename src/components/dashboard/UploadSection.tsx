@@ -4,7 +4,9 @@ import { useDropzone } from 'react-dropzone';
 import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
 import { Textarea } from '../ui/Textarea';
-import { ArrowLeft, Upload, FileText, Mic, Sparkles } from 'lucide-react';
+import { Select } from '../ui/Select';
+import { Upload, FileText, Mic, Sparkles } from 'lucide-react';
+import { CLASS_LEVELS, GLOBAL_MODULES } from '../../config/constants';
 import { LessonInput } from '../../types';
 import { processOCR, processSpeechToText } from '../../services/aiService';
 import toast from 'react-hot-toast';
@@ -12,10 +14,9 @@ import toast from 'react-hot-toast';
 interface UploadSectionProps {
   onGenerate: (input: LessonInput) => Promise<void>;
   loading: boolean;
-  onBack: () => void;
 }
 
-export const UploadSection: React.FC<UploadSectionProps> = ({ onGenerate, loading, onBack }) => {
+export const UploadSection: React.FC<UploadSectionProps> = ({ onGenerate, loading }) => {
   const [uploadType, setUploadType] = useState<'text' | 'pdf' | 'audio'>('text');
   const [text, setText] = useState('');
   const [processing, setProcessing] = useState(false);
@@ -75,52 +76,77 @@ export const UploadSection: React.FC<UploadSectionProps> = ({ onGenerate, loadin
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center space-x-4">
-        <Button variant="outline" onClick={onBack} className="flex items-center space-x-2">
-          <ArrowLeft className="w-4 h-4" />
-          <span>Back to Dashboard</span>
-        </Button>
-        <h2 className="text-2xl font-bold text-gray-800">Upload Your Own Material</h2>
-      </div>
-
       <Card className="p-6">
-        <h3 className="text-xl font-semibold text-gray-800 mb-6 flex items-center">
+        <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center">
           <Sparkles className="w-6 h-6 mr-3 text-orange-500" />
-          Teacher's Content Upload
-        </h3>
+          Create Interactive AI Whiteboard Content
+        </h2>
 
-        {/* Upload Type Selector */}
-        <div className="grid grid-cols-3 gap-4 mb-6">
-          {[
-            { type: 'text', icon: FileText, label: 'Text Content', desc: 'Copy-paste lesson text' },
-            { type: 'pdf', icon: Upload, label: 'PDF/Image', desc: 'Upload documents/photos' },
-            { type: 'audio', icon: Mic, label: 'Voice Notes', desc: 'Audio recordings' }
-          ].map(({ type, icon: Icon, label, desc }) => (
-            <motion.button
-              key={type}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => setUploadType(type as any)}
-              className={`p-4 rounded-lg border-2 transition-all duration-200 ${
-                uploadType === type
-                  ? 'border-orange-500 bg-orange-50 text-orange-700'
-                  : 'border-gray-200 hover:border-gray-300'
-              }`}
-            >
-              <Icon className="w-6 h-6 mx-auto mb-2" />
-              <div className="text-sm font-medium">{label}</div>
-              <div className="text-xs text-gray-500 mt-1">{desc}</div>
-            </motion.button>
-          ))}
+        {/* How it Works Section */}
+        <div className="mb-6">
+          <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-xl mb-6">
+            <h3 className="font-bold text-blue-800 mb-4 text-lg">🎯 How ASman Learning Transforms Your Classroom:</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-blue-700">
+              <div className="flex items-start space-x-3">
+                <span className="text-lg">🎨</span>
+                <div>
+                  <strong>Interactive AI Whiteboard:</strong> Teacher speaks, AI draws and animates concepts in real-time
+                </div>
+              </div>
+              <div className="flex items-start space-x-3">
+                <span className="text-lg">👥</span>
+                <div>
+                  <strong>Student AI Assistant:</strong> Children ask questions anytime, get instant visual answers
+                </div>
+              </div>
+              <div className="flex items-start space-x-3">
+                <span className="text-lg">📚</span>
+                <div>
+                  <strong>NCERT Aligned:</strong> Every lesson follows official curriculum with enhanced engagement
+                </div>
+              </div>
+              <div className="flex items-start space-x-3">
+                <span className="text-lg">🌍</span>
+                <div>
+                  <strong>Cultural Balance:</strong> Global perspectives rooted in Indian values and examples
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Upload Type Selector */}
+          <div className="grid grid-cols-3 gap-4">
+            {[
+              { type: 'text', icon: FileText, label: 'NCERT Text Content', desc: 'Copy-paste lesson text' },
+              { type: 'pdf', icon: Upload, label: 'Textbook Pages', desc: 'PDF/Image upload' },
+              { type: 'audio', icon: Mic, label: 'Teacher Notes', desc: 'Audio recordings' }
+            ].map(({ type, icon: Icon, label, desc }) => (
+              <motion.button
+                key={type}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => setUploadType(type as any)}
+                className={`p-4 rounded-lg border-2 transition-all duration-200 ${
+                  uploadType === type
+                    ? 'border-orange-500 bg-orange-50 text-orange-700'
+                    : 'border-gray-200 hover:border-gray-300'
+                }`}
+              >
+                <Icon className="w-6 h-6 mx-auto mb-2" />
+                <div className="text-sm font-medium">{label}</div>
+                <div className="text-xs text-gray-500 mt-1">{desc}</div>
+              </motion.button>
+            ))}
+          </div>
         </div>
 
         {/* Content Input */}
         {uploadType === 'text' ? (
           <Textarea
-            label="Your Lesson Content"
+            label="NCERT Lesson Content"
             value={text}
             onChange={(e) => setText(e.target.value)}
-            placeholder="Paste your lesson content here... For example: 'Chapter 3: Water Cycle - Water is everywhere around us. It falls as rain, flows in rivers...'"
+            placeholder="Paste your NCERT lesson content here... For example: 'Chapter 3: Water Cycle - Water is everywhere around us. It falls as rain, flows in rivers...'"
             rows={8}
           />
         ) : (
@@ -169,33 +195,31 @@ export const UploadSection: React.FC<UploadSectionProps> = ({ onGenerate, loadin
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card className="p-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">Class Level</label>
-          <select
+          <Select
+            label="Class Level"
             value={classLevel}
             onChange={(e) => setClassLevel(e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-          >
-            <option value="1">Class 1 (Ages 6-7)</option>
-            <option value="2">Class 2 (Ages 7-8)</option>
-            <option value="3">Class 3 (Ages 8-9)</option>
-            <option value="4">Class 4 (Ages 9-10)</option>
-            <option value="5">Class 5 (Ages 10-11)</option>
-          </select>
+            options={CLASS_LEVELS}
+          />
+          <div className="mt-3 p-3 bg-orange-50 rounded-lg">
+            <p className="text-sm text-orange-700">
+              🎯 AI adapts content complexity and examples for this age group
+            </p>
+          </div>
         </Card>
 
         <Card className="p-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">Global Module</label>
-          <select
+          <Select
+            label="Global Learning Module"
             value={globalModule}
             onChange={(e) => setGlobalModule(e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-          >
-            <option value="auto">Auto-Suggest</option>
-            <option value="china">China Focus (Drills)</option>
-            <option value="japan">Japan Focus (Discipline)</option>
-            <option value="us">USA Focus (Curiosity)</option>
-            <option value="europe">Europe Focus (Creativity)</option>
-          </select>
+            options={GLOBAL_MODULES.map(m => ({ value: m.value, label: m.label }))}
+          />
+          <div className="mt-3 p-3 bg-blue-50 rounded-lg">
+            <p className="text-sm text-blue-700">
+              {GLOBAL_MODULES.find(m => m.value === globalModule)?.description}
+            </p>
+          </div>
         </Card>
       </div>
 
@@ -208,8 +232,14 @@ export const UploadSection: React.FC<UploadSectionProps> = ({ onGenerate, loadin
           className="px-12 py-4 text-xl"
         >
           <Sparkles className="w-6 h-6 mr-3" />
-          {processing ? 'Processing File...' : 'Generate AI Lesson Pack'}
+          {processing ? 'Processing File...' : 'Generate AI Whiteboard Lesson'}
         </Button>
+        
+        <div className="mt-4 p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg">
+          <p className="text-sm text-gray-700">
+            🚀 <strong>What happens next:</strong> AI creates interactive whiteboard visuals, student activities, Q&A responses, and complete teacher guides - all aligned with NCERT standards!
+          </p>
+        </div>
       </div>
     </div>
   );

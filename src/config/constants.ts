@@ -34,73 +34,42 @@ export const CLASS_LEVELS = [
 export const GLOBAL_MODULES = [
   { 
     value: 'auto', 
-    label: 'Auto-Suggest', 
+    label: 'Auto Select', 
     character: '🤖', 
     flag: '🌍',
-    description: 'AI will choose the best cultural learning approach for this topic',
+    description: 'AI will choose the best cultural perspective',
     color: 'bg-gradient-to-r from-blue-500 to-blue-600'
   },
   { 
     value: 'china', 
-    label: 'China Focus (Drills)', 
+    label: 'China Focus', 
     character: '👨‍🏫', 
     flag: '🇨🇳',
-    description: 'Structured drills, repetition exercises, and disciplined learning practices',
+    description: 'Discipline and structured learning approach',
     color: 'bg-gradient-to-r from-red-500 to-red-600'
   },
   { 
     value: 'japan', 
-    label: 'Japan Focus (Discipline)', 
+    label: 'Japan Focus', 
     character: '👩‍🏫', 
     flag: '🇯🇵',
-    description: 'Mindful activities, group harmony, and respectful learning methods',
+    description: 'Precision and mindful learning methods',
     color: 'bg-gradient-to-r from-pink-500 to-pink-600'
   },
   { 
     value: 'us', 
-    label: 'USA Focus (Curiosity)', 
+    label: 'US Focus', 
     character: '👨‍🎓', 
     flag: '🇺🇸',
-    description: 'Curiosity-driven experiments, hands-on exploration, and creative problem-solving',
+    description: 'Curiosity-driven and innovative thinking',
     color: 'bg-gradient-to-r from-blue-500 to-blue-600'
   },
   { 
     value: 'europe', 
-    label: 'Europe Focus (Creativity)', 
+    label: 'Europe Focus', 
     character: '👩‍🎨', 
     flag: '🇪🇺',
-    description: 'Artistic expression, creative storytelling, and imaginative learning approaches',
+    description: 'Creative and artistic learning approaches',
     color: 'bg-gradient-to-r from-purple-500 to-purple-600'
-  }
-];
-
-export const AI_CHARACTERS = [
-  {
-    value: 'friendly',
-    label: 'Friendly Guide',
-    emoji: '😊',
-    description: 'Warm, encouraging, and supportive teaching assistant',
-    teachingStyle: 'Patient and nurturing, celebrates every small achievement'
-  },
-  {
-    value: 'curious',
-    label: 'Curious Explorer',
-    emoji: '🤔',
-    description: 'Asks questions and encourages discovery',
-    teachingStyle: 'Inquiry-based learning, "What do you think?" approach'
-  },
-  {
-    value: 'playful',
-    label: 'Playful Buddy',
-    emoji: '😄',
-    description: 'Fun-loving and energetic learning companion',
-    teachingStyle: 'Game-based learning, songs, and interactive play'
-  },
-  {
-    value: 'wise',
-    label: 'Wise Mentor',
-    emoji: '🧙‍♂️',
-    description: 'Knowledgeable guide with stories and wisdom',
-    teachingStyle: 'Story-based teaching, cultural connections, life lessons'
   }
 ];

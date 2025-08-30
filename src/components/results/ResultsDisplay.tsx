@@ -5,20 +5,17 @@ import { QACard } from './QACard';
 import { GlobalModuleCard } from './GlobalModuleCard';
 import { AudioPlayer } from './AudioPlayer';
 import { ExportSection } from './ExportSection';
-import { Button } from '../ui/Button';
-import { BookOpen, Activity, ArrowLeft } from 'lucide-react';
+import { BookOpen, Activity, Globe } from 'lucide-react';
 import { LessonOutput } from '../../types';
 
 interface ResultsDisplayProps {
   output: LessonOutput;
   classLevel: string;
-  onBack: () => void;
 }
 
 export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ 
   output, 
-  classLevel,
-  onBack 
+  classLevel 
 }) => {
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -35,23 +32,6 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
     visible: { opacity: 1, y: 0 }
   };
 
-  // Extract topic from the lesson content
-  const extractTopic = (content: string): string => {
-    if (!content) return 'the lesson topic';
-    
-    const firstSentence = content.split('.')[0] || content.substring(0, 100);
-    const words = firstSentence.split(' ');
-    
-    const topicKeywords = words.filter(word => 
-      word.length > 4 && 
-      !['This', 'lesson', 'will', 'help', 'students', 'understand', 'learn', 'about'].includes(word)
-    );
-    
-    return topicKeywords.slice(0, 2).join(' ') || 'the lesson topic';
-  };
-
-  const topic = extractTopic(output.simplified_explanation);
-
   return (
     <motion.div
       variants={containerVariants}
@@ -59,19 +39,13 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
       animate="visible"
       className="space-y-8"
     >
-      <div className="flex items-center space-x-4">
-        <Button variant="outline" onClick={onBack} className="flex items-center space-x-2">
-          <ArrowLeft className="w-4 h-4" />
-          <span>Back to Dashboard</span>
-        </Button>
-        <div>
-          <h2 className="text-3xl font-bold text-gray-800">
-            Your AI Lesson Pack is Ready! 🎨✨
-          </h2>
-          <p className="text-gray-600">
-            Interactive content for Class {classLevel} - Topic: {topic}
-          </p>
-        </div>
+      <div className="text-center">
+        <h2 className="text-3xl font-bold text-gray-800 mb-2">
+          Your AI Whiteboard Lesson is Ready! 🎨✨
+        </h2>
+        <p className="text-gray-600">
+          Interactive content designed for Class {classLevel} with AI whiteboard integration
+        </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -109,7 +83,7 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
         <AudioPlayer 
           text={output.simplified_explanation} 
           classLevel={classLevel}
-          topic={topic}
+          topic={extractTopicFromContent(output.simplified_explanation)}
         />
       </motion.div>
 
@@ -119,3 +93,18 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
     </motion.div>
   );
 };
+
+// Helper function to extract topic from content
+function extractTopicFromContent(content: string): string {
+  // Extract the main topic from the first sentence or paragraph
+  const firstSentence = content.split('.')[0];
+  const words = firstSentence.split(' ');
+  
+  // Look for key educational terms
+  const topicKeywords = words.filter(word => 
+    word.length > 4 && 
+    !['This', 'lesson', 'will', 'help', 'students', 'understand', 'learn'].includes(word)
+  );
+  
+  return topicKeywords.slice(0, 2).join(' ') || 'the lesson topic';
+}
